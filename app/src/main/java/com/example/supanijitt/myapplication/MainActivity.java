@@ -52,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(getApplicationContext(), sUsername , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btnGp :
-                Toast.makeText(getApplicationContext(), sUsername.toString() , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), sUsername , Toast.LENGTH_SHORT).show();
+                CustomListView();
                 break;
             case R.id.register :
                 //Toast.makeText(getApplicationContext(), "Register !!!", Toast.LENGTH_LONG).show();
@@ -76,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent i = new Intent(this, NextPageActivity.class);
 
         i.putExtra("name",s);
+        startActivity(i);
+    }
+
+    public void CustomListView(){
+        Intent i = new Intent(this, CustomListViewAndroidExample.class);
         startActivity(i);
     }
 }

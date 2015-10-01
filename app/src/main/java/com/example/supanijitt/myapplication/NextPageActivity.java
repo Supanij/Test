@@ -22,13 +22,15 @@ public class NextPageActivity extends AppCompatActivity {
 
         Intent _b = getIntent();
         String str = _b.getStringExtra("name");
-        Log.d("str : ",str.toString());
-        dispName.setText(str);
-        /*if(_b.){
+
+        //dispName.setText(str);
+        if(_b == null || str.equals("")){
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener(){
+            alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which){ finish();}
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
             });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.setTitle("Error Dialog");
@@ -37,12 +39,9 @@ public class NextPageActivity extends AppCompatActivity {
             alertDialog.show();
         }
         else {
-            String str = _b.getString("name");
+            //String str = _b.getStringExtra("name");
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which){ finish();}
-            });
+            alertDialogBuilder.setPositiveButton("ok", null);
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.setTitle("Success Dialog");
             alertDialog.setMessage(str);
@@ -50,7 +49,7 @@ public class NextPageActivity extends AppCompatActivity {
             alertDialog.show();
 
             dispName.setText(str);
-        }*/
+        }
     }
 
 

@@ -16,7 +16,6 @@
         android:scaleType="fitXY" />
 
     <TextView android:id="@+id/displayName"
-        android:text="displayName"
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_marginLeft="225dp"
