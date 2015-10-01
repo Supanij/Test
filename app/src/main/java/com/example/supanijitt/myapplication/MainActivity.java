@@ -76,12 +76,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Log.d("s : ", s.toString());
         Intent i = new Intent(this, NextPageActivity.class);
 
-        i.putExtra("name",s);
+        i.putExtra("name", s);
         startActivity(i);
     }
 
     public void CustomListView(){
-        Intent i = new Intent(this, CustomListViewAndroidExample.class);
+        Intent i = new Intent(this, second_page.class);
         startActivity(i);
     }
 }
