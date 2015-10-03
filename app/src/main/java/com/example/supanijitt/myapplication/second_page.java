@@ -1,6 +1,11 @@
 package com.example.supanijitt.myapplication;
 
+import com.example.supanijitt.myapplication.CustomAdapter;
+
+import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,26 +15,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
-public class second_page extends AppCompatActivity {
+public class second_page extends Activity {
+    private List<ListModel> list_data = new ArrayList<ListModel>();
     String[] itemname = {"A","B","C","D","E"};
-    Integer[] imgid={
-            R.drawable.image1,
-            R.drawable.image2,
-            R.drawable.image3,
-            R.drawable.image4,
-            R.drawable.image5
-    };
-    ListModel list_data[] = new ListModel[]
-            {
-                    new ListModel("Left",R.drawable.image1,""),
-                    new ListModel("Down",R.drawable.image2,""),
-                    new ListModel("Flower",R.drawable.image3,""),
-                    new ListModel("Pillow",R.drawable.image4,""),
-                    new ListModel("Girls",R.drawable.image5,"")
-            };
+
     ListView listView;
+
     private ListView mlist;
     private CustomAdapter mAdapter;
 
@@ -38,13 +35,26 @@ public class second_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second_page);
 
+        createListData();
+        createListView();
+        createListClick();
+    }
+
+    private void createListData() {
+        list_data.add(new ListModel("Left", R.drawable.core01, "Transparency"));
+        list_data.add(new ListModel("Down", R.drawable.core02, "Care"));
+        list_data.add(new ListModel("Flower", R.drawable.core03, "Intrigrity"));
+        list_data.add(new ListModel("Pillow", R.drawable.core04, "Collaboration"));
+        list_data.add(new ListModel("Girls", R.drawable.core05, "Achievement"));
+    }
+
+    private void createListView(){
+        ArrayAdapter<ListModel> adapter = new CustomAdapter(this,list_data);
         listView = (ListView)findViewById(R.id.list);
-        //mlist = (ListView)findViewById(R.id.list)
-        CustomAdapter adapter = new CustomAdapter(this, list_data);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, itemname);
-
         listView.setAdapter(adapter);
+    }
 
+    public void createListClick(){
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -54,7 +64,7 @@ public class second_page extends AppCompatActivity {
                 int itemPosition = position;
 
                 // ListView Clicked item value
-                String itemValue = (String) listView.getItemAtPosition(position);
+                String itemValue = list_data.get(position).getImageDesc();
 
                 // Show Alert
                 Toast.makeText(getApplicationContext(),"Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG).show();

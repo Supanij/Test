@@ -18,10 +18,10 @@ import java.util.List;
 public class CustomAdapter extends ArrayAdapter<ListModel> {
 
     Context context;
-    com.example.supanijitt.myapplication.ListModel data[] = null;
+    List<ListModel> data;
 
 
-    public CustomAdapter(Context context, com.example.supanijitt.myapplication.ListModel[] data) {
+    public CustomAdapter(Context context, List<ListModel> data) {
         super(context, R.layout.mylist, data);
 
         this.context = context;
@@ -30,48 +30,27 @@ public class CustomAdapter extends ArrayAdapter<ListModel> {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        View row = view;
-        ListModelHolder holder = null;
+        View itemView = view;
 
-        if(row == null)
+        if(itemView == null)
         {
-            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-            row = inflater.inflate(R.layout.mylist, parent, false);
 
-            holder = new ListModelHolder();
-            holder.imgUrl = (ImageView)row.findViewById(R.id.icon);
-            holder.uName = (TextView)row.findViewById(R.id.Itemname);
-
-            row.setTag(holder);
-        }
-        else
-        {
-            holder = (ListModelHolder)row.getTag();
+            LayoutInflater layout = ((Activity)context).getLayoutInflater();
+            itemView = layout.inflate(R.layout.mylist, parent, false);
         }
 
-        ListModel list = data[position];
-        holder.uName.setText(list.UserName);
-        holder.imgUrl.setImageResource(list.ImageUrl);
+        ListModel list = data.get(position);
 
-        return row;
+        ImageView imageView = (ImageView)itemView.findViewById(R.id.icon);
+        imageView.setImageResource(list.getImageUrl());
+
+        TextView lText = (TextView)itemView.findViewById(R.id.itemName);
+        lText.setText(list.getUserName());
+
+        TextView sText = (TextView)itemView.findViewById(R.id.itemDesc);
+        sText.setText(list.getImageDesc());
+
+        return itemView;
     }
 
-    static class ListModelHolder
-    {
-        ImageView imgUrl;
-        TextView uName;
-    }
-    /*public View getView(int position,View view,ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.mylist, null,true);
-
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.Itemname);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-
-        txtTitle.setText(itemname[position]);
-        imageView.setImageResource(imgid[position]);
-
-        return rowView;
-
-    };*/
 }
