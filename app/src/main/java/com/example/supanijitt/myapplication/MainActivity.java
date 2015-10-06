@@ -1,5 +1,6 @@
 package com.example.supanijitt.myapplication;
 
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Login(sUsername);//Toast.makeText(getApplicationContext(), "Login", Toast.LENGTH_LONG).show();
                 break;
             case R.id.btnFb :
-                Toast.makeText(getApplicationContext(), sUsername , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), sUsername , Toast.LENGTH_SHORT).show();
+                GotoFacebook();
                 break;
             case R.id.btnGp :
                 //Toast.makeText(getApplicationContext(), sUsername , Toast.LENGTH_SHORT).show();
@@ -82,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void CustomListView(){
         Intent i = new Intent(this, second_page.class);
+        startActivity(i);
+    }
+
+    public void GotoFacebook(){
+        Intent i = new Intent(this, LoginFB_Activity.class);
         startActivity(i);
     }
 }

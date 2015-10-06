@@ -2,11 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.supanijitt.myapplication" >
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id"></meta-data>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -24,6 +29,22 @@
             android:name=".second_page"
             android:label="@string/title_activity_second_page" >
         </activity>
+        <activity
+            android:name=".LoginFB_Activity"
+            android:label="@string/title_activity_login_fb_" >
+        </activity>
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+        <provider android:authorities="com.facebook.app.FacebookContentProvider102083760130441"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+        <receiver android:name="com.example.supanijitt.myapplication.HelloFacebookBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.facebook.platform.AppCallResultBroadcast" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
