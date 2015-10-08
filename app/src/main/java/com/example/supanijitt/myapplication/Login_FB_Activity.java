@@ -1,13 +1,17 @@
 package com.example.supanijitt.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -42,6 +46,8 @@ import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
+import java.io.File;
+import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -57,9 +63,8 @@ public class Login_FB_Activity extends FragmentActivity {
         }
     };
 
-    private final String PENDING_ACTION_BUNDLE_KEY =
-            "com.example.hellofacebook:PendingAction";
-
+    private final String PENDING_ACTION_BUNDLE_KEY = "aloha";
+	//private final String PENDING_ACTION_BUNDLE_KEY = "com.example.hellofacebook:PendingAction";
     private Button postStatusUpdateButton;
     private Button postPhotoButton;
     private ProfilePictureView profilePictureView;
@@ -70,6 +75,8 @@ public class Login_FB_Activity extends FragmentActivity {
     private CallbackManager callbackManager;
     private ProfileTracker profileTracker;
     private ShareDialog shareDialog;
+    private static int TAKE_PICTURE = 1;
+    private Uri imageUri;
 
     private enum PendingAction {
         NONE,
@@ -116,7 +123,7 @@ public class Login_FB_Activity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
-        try {
+        /*try {
             PackageInfo info = getPackageManager().getPackageInfo("com.example.supanijitt.myapplication", PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
@@ -127,41 +134,40 @@ public class Login_FB_Activity extends FragmentActivity {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        }
+        }*/
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                Toast.makeText(getApplicationContext(), "Success" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Success" , Toast.LENGTH_SHORT).show();
                 //updateUI();
             }
 
             @Override
             public void onCancel() {
                 // App code
-                Toast.makeText(getApplicationContext(), "Cancel" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Cancel" , Toast.LENGTH_SHORT).show();
                 //updateUI();
             }
 
             @Override
             public void onError(FacebookException exception) {
                 // App code
-                Toast.makeText(getApplicationContext(), "Error" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Error" , Toast.LENGTH_SHORT).show();
                 //updateUI();
             }
         });
 
         shareDialog = new ShareDialog(this);
-        shareDialog.registerCallback(
-                callbackManager,
-                shareCallback);
-
-        if (savedInstanceState != null) {
+        shareDialog.registerCallback(callbackManager, shareCallback);
+		
+        /*if (savedInstanceState != null) {
             String name = savedInstanceState.getString(PENDING_ACTION_BUNDLE_KEY);
+			Toast.makeText(getApplicationContext(), name , Toast.LENGTH_SHORT).show();
             pendingAction = PendingAction.valueOf(name);
-        }
+        }*/
 
         setContentView(R.layout.activity_login_fb);
 
@@ -208,13 +214,13 @@ public class Login_FB_Activity extends FragmentActivity {
         // launched into.
         AppEventsLogger.activateApp(this);
 
-        updateUI();
+        //updateUI();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+		//Toast.makeText(getApplicationContext(), PENDING_ACTION_BUNDLE_KEY , Toast.LENGTH_SHORT).show();
         outState.putString(PENDING_ACTION_BUNDLE_KEY, pendingAction.name());
     }
 
@@ -222,6 +228,13 @@ public class Login_FB_Activity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        /*if(resultCode == Activity.RESULT_OK){
+            Uri selectedImage  = imageUri;
+            Toast.makeText(getApplicationContext(), "RESULT OK" , Toast.LENGTH_SHORT).show();
+            //getCotentResolver().notifyChange(selectedImage, null);
+
+        }*/
     }
 
     @Override
@@ -300,7 +313,9 @@ public class Login_FB_Activity extends FragmentActivity {
     }
 
     private void postPhoto() {
-        Bitmap image = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon);
+        takePhoto();
+        //Bitmap image = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon);
+        Bitmap image = BitmapFactory.decodeResource(this.getResources(), getResId("picture", Drawable.class));
         SharePhoto sharePhoto = new SharePhoto.Builder().setBitmap(image).build();
         ArrayList<SharePhoto> photos = new ArrayList<SharePhoto>();
         photos.add(sharePhoto);
@@ -331,5 +346,24 @@ public class Login_FB_Activity extends FragmentActivity {
             pendingAction = action;
             handlePendingAction();
         }
+    }
+
+    public static int getResId(String resName, Class<?> c) {
+
+        try {
+            Field idField = c.getDeclaredField(resName);
+            return idField.getInt(idField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    private void takePhoto(){
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"picture.jpg");
+        imageUri = Uri.fromFile(photo);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, TAKE_PICTURE);
     }
 }
