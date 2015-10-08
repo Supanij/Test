@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class second_page extends Activity {
+public class ListPageActivity extends Activity {
     private List<ListModel> list_data = new ArrayList<ListModel>();
     String[] itemname = {"A","B","C","D","E"};
 

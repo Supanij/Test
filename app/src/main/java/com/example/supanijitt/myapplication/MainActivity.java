@@ -2,19 +2,13 @@ package com.example.supanijitt.myapplication;
 
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     EditText txt_user, txt_pass;
@@ -83,12 +77,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void CustomListView(){
-        Intent i = new Intent(this, second_page.class);
+        Intent i = new Intent(this, ListPageActivity.class);
         startActivity(i);
     }
 
     public void GotoFacebook(){
-        Intent i = new Intent(this, LoginFB_Activity.class);
+        Intent i = new Intent(this, Login_FB_Activity.class);
         startActivity(i);
     }
 }
